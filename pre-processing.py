@@ -69,8 +69,9 @@ def interp(traj, min_timestamp, max_timestamp, sample_size ):
         
 def interp_by_pair(trajectories):
     interp_trajs = dict()
-    for one_t in trajectories.keys():
-        for another_t in trajectories.keys():
+    ranges       = len(trajectories)
+    for one_t in range(ranges):
+        for another_t in range(one_t+1,ranges):
             traj1 = trajectories[one_t]
             traj2 = trajectories[another_t]
             if traj1.object_id == traj2.object_id:

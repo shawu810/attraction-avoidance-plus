@@ -10,6 +10,8 @@ Preprocessing
     
 
 class Trajectory:
+    """ Trajectory class
+     for pre-processing """
     def __init__(self, object_id, points=list(), timestamps=list()):
         self.object_id        = object_id
         self.raw_points       = points
@@ -47,9 +49,10 @@ def haversine(point1, point2):
 
     # 6367 km is the radius of the Earth
     km = 6367 * c *1000
-    return km 
+    return max([km,1]) 
     
 def compute_steps(points):
+    """ turn the raw points array into distance vector """
     distance_vector = list()
     for i in range(len(points)-1):
         pa = points[i]
@@ -57,3 +60,5 @@ def compute_steps(points):
         dis = haversine(pa,pb)
         distance_vector.append(dis)    
     return distance_vector
+    
+

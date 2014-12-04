@@ -4,7 +4,8 @@ Created on Fri Nov 28 16:04:34 2014
 
 @author: feiwu
 """
-
+import utility as ut
+import powerlaw
 def get_all_distance(interp_result):
     all_dis = list()
     for f_key in interp_result.keys():
@@ -12,6 +13,19 @@ def get_all_distance(interp_result):
         dis = ut.compute_steps(pair[0].raw_points) + ut.compute_steps(pair[1].raw_points)
         all_dis += dis
     return all_dis
+    
+def power_law_par(interp_result):
+    X       = np.array(get_all_distance(interp_result))
+    results = powerlaw.Fit(X, xmin = 1, xmax = 1000, linear_bins = True)
+    return results.power_law.alpha, results.power_law.xmin
+    
+
+import numpy as np
+import scipy.stats
+def fitting_rall_normal(dis_v):
+    return np.mean(dis_v),np.std(dis_v),dis_v
+    
+"""    
 import cPickle as pickle
 import numpy as np
 import utility as ut
@@ -32,6 +46,8 @@ from pylab import *
 import powerlaw
 Y = data1
 X = np.array(get_all_distance(interp_result))
+mu, std, dis_v = fitting_rall_normal(X)
+print mu,std
 results = powerlaw.Fit(X, xmin = 1, xmax = 1000, linear_bins = True)
 print results.power_law.alpha
 print results.power_law.xmin
@@ -45,3 +61,4 @@ R, p = results.distribution_compare('lognormal', 'truncated_power_law',  normali
 show()
 
 edges, hist = powerlaw.pdf(Y)
+"""
